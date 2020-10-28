@@ -16,7 +16,7 @@ class Server():
         self.priority = priority.lower()
 
         self.history = []
-        self.alert = False # CHECKFLAG TO NOT SPAM NOTIFICATIONS
+        self.alert = False  # CHECKFLAG TO NOT SPAM NOTIFICATIONS
 
     def check_connection(self):
         msg = ""
@@ -48,9 +48,9 @@ class Server():
 
         if success == False and self.alert == False:
             # send alert
-          self.alert = True
- #         email_alert(self.name, f"{msg}\n{now}", "hggbdevelopment@gmail.com") # uncomment when gmail alert is set up
-          self.create_history(msg, success, now)
+            self.alert = True
+#            email_alert(self.name, f"{msg}\n{now}", "hggbdevelopment@gmail.com") # uncomment when gmail alert is set up
+            self.create_history(msg, success, now)
 
     def create_history(self, msg, success, now):
         history_max = 100
