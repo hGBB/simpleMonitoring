@@ -69,6 +69,7 @@ class Server():
         except Exception:
             return False
 
+
 if __name__ == "__main__":
     try:
         servers = pickle.load(open("servers.pickle", "rb"))

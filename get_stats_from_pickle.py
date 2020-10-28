@@ -1,5 +1,4 @@
 import pickle
-from CheckServer import Server
 
 servers = pickle.load(open("servers.pickle", "rb"))
 
