@@ -1,9 +1,12 @@
 import socket
 import ssl
 from datetime import datetime
+import pickle
 
 import subprocess
 import platform
+
+from gmail import email_alert
 
 class Server():
     def __init__(self, name, port, connection, priority):
@@ -42,7 +45,12 @@ class Server():
             msg = f"server: {self.name} {e}"
         except Exception as e:
             msg = f"I'm lost right here"
-        self.create_history(msg, success, now)
+
+        if success == False and self.alert == False:
+            # send alert
+          self.alert = True
+ #         email_alert(self.name, f"{msg}\n{now}", "hggbdevelopment@gmail.com") # uncomment when gmail alert is set up
+          self.create_history(msg, success, now)
 
     def create_history(self, msg, success, now):
         history_max = 100
@@ -62,12 +70,17 @@ class Server():
             return False
 
 if __name__ == "__main__":
-    servers = [
-        Server("studip.uni-passau.de", 80, "plain", "high"),
-        Server("google.com", 80, "plain", "high"),
-        Server("reddit.com", 80, "plain", "high")
-    ]
+    try:
+        servers = pickle.load(open("servers.pickle", "rb"))
+    except:
+        servers = [
+            Server("https://studip.uni-passau.de", 80, "plain", "high"),
+            Server("google.com", 80, "plain", "high"),
+            Server("reddit.com", 80, "plain", "high")
+        ]
 
     for server in servers:
         server.check_connection()
         print(server.history[-1])
+
+    pickle.dump(servers, open("servers.pickle", "wb"))
